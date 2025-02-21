@@ -15,6 +15,10 @@ const ReevalRequestSchema = new Schema({
     },
     transactionId: String,
     paymentAmount: Number,
+    paymentProof: {
+        type: String, // This will store the URL/path of the uploaded image
+        required: true,
+    },
     completionDate: Date,
     assignedFaculty: {
         type: mongoose.Schema.Types.ObjectId,
