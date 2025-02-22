@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 export const useAuth = () => React.useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [tempUser, setTempUser] = useState(null);
@@ -23,27 +23,17 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const authUrl = import.meta.env.VITE_API_URL + "/auth/is-auth";
-      const response = await axios.get(authUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      console.log('response',response);
-      
-      if (!response.ok) {
-        const error = await response.json();
-        console.log(error.message);
-        throw new Error(`${response.message}`);
-      }
 
-      const result = await response.json();
-      console.log("Auth status:", result);
-      setLoggedInUser(result.user);
+      const response = await axios.get(authUrl, { withCredentials: true });
+
+      console.log('auth response', response);
+      setLoggedInUser(response.data.data.user);
+      setIsAuthenticated(true);
+      console.log("loggedInUser: ", response.data.data.user);
     } catch (error) {
       console.log("AuthContext service :: checkAuthStatus :: error : ", error);
       setLoggedInUser(null);
+      setIsAuthenticated(false);
     } finally {
       setLoading(false);
     }

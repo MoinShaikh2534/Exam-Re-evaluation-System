@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContexts";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
@@ -25,7 +25,7 @@ const FacultyLogin = () => {
       console.log('response', response);
       if (response.status !== 200)
         throw new Error("Login Failed")
-      console.log(response.data.data.student);
+      console.log(response.data.data.faculty);
       navigate('/home')
 
       setLoggedInUser(response.data.data.student);
@@ -43,7 +43,7 @@ const FacultyLogin = () => {
       <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 p-6">
 
         <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center">
-           Faculty Login</h2>
+          Faculty Login</h2>
         <form className="space-y-4 mt-4" onSubmit={handleSubmit}>
           <div>
             <label
