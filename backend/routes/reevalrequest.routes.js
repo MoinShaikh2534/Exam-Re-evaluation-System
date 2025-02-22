@@ -8,6 +8,7 @@ const {
     applyReevalRequest,
     approveReevalRequest,
     getAllReevalRequests,
+    getAssignedRequests,
 } = require("../controllers/reevalrequest.controllers");
 const { Role } = require("../utils/enums");
 
@@ -24,6 +25,13 @@ router.get(
     verifyToken,
     authorizeRoles([Role.CASHIER]),
     getAllReevalRequests,
+);
+
+router.get(
+    "/get-assigned-requests",
+    verifyToken,
+    authorizeRoles([Role.CHECKER]),
+    getAssignedRequests,
 );
 
 router.post(
