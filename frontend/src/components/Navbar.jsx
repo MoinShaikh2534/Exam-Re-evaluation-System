@@ -1,15 +1,10 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 const Navbar = () => {
-const {loggedInUser}  = useAuth()
-  function handleLogout() {
-    loggedInUser.setLoggedInUser(null);
-    loggedInUser.setIsAuthenticated(false);
-
-    const logoutURL = import.meta.env.VITE_API_URL + '/auth/logout';
-    const res  = axios.post(logoutURL);
-    console.log(res);
-    
+  const { logout } = useAuth()
+  async function handleLogout() {
+    logout();
   }
 
   return (
