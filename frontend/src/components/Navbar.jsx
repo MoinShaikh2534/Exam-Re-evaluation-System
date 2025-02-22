@@ -38,7 +38,7 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/logout"
+                href="/"
                 className="text-red-600 hover:bg-red-200 py-2 px-4 rounded-lg transition duration-300"
               >
                 Logout
