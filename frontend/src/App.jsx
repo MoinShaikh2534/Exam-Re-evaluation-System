@@ -9,6 +9,8 @@ import StudentLogin from "./pages/StudentLogin";
 import FacultyLogin from "./pages/FacultyLogin";
 import Home from "./pages/Home";
 import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
+import EvaluatorDashboard from "./pages/EvaluatorDashboard";
+import Logout from "./pages/Logout";
 
 const App = () => {
   return (
