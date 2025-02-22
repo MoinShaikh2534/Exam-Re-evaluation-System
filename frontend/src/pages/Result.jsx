@@ -3,13 +3,10 @@ import React, { useState } from 'react';
 const Result = () => {
   const [results] = useState([
     { courseCode: "MATH101", subject: "Mathematics", marks: 85, maxMarks: 100 },
-    { courseCode: "PHY101", subject: "Physics", marks: 78, maxMarks: 100 },
-    { courseCode: "CHEM101", subject: "Chemistry", marks: 88, maxMarks: 100 },
-    { courseCode: "BIO101", subject: "Biology", marks: 90, maxMarks: 100 },
-    { courseCode: "ENG101", subject: "English", marks: 82, maxMarks: 100 },
-    { courseCode: "HIST101", subject: "History", marks: 76, maxMarks: 100 },
-    { courseCode: "GEO101", subject: "Geography", marks: 80, maxMarks: 100 },
-    { courseCode: "CS101", subject: "Computer Science", marks: 92, maxMarks: 100 },
+    { courseCode: "OS101", subject: "Operating Systems", marks: 78, maxMarks: 100 },
+    { courseCode: "DB101", subject: "Database Engineering", marks: 88, maxMarks: 100 },
+    { courseCode: "UI101", subject: "Unix Internals", marks: 90, maxMarks: 100 },
+    { courseCode: "CA101", subject: "Computer Algorithms ", marks: 65, maxMarks: 100 },
   ]);
 
   const totalMarksObtained = results.reduce((total, result) => total + result.marks, 0);
@@ -18,7 +15,6 @@ const Result = () => {
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg mt-2">
-      
       <h2 className="text-3xl font-semibold text-center text-blue-700 mb-6">Exam Results</h2>
       <table className="w-full border-collapse border border-gray-300">
         <thead>
@@ -46,9 +42,8 @@ const Result = () => {
         </tbody>
       </table>
       <div className='text-right mt-4'>
-      <span className="text-xl text-bold">Percentage: {percentage}%</span>
+        <span className="text-xl font-bold">Percentage: {percentage}%</span>
       </div>
-      
     </div>
   );
 };

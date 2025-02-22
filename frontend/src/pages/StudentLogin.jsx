@@ -1,13 +1,24 @@
-import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContexts";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import '../App.css'
 const StudentLogin = () => {
   const [prn, setPrn] = useState("");
   const [dob, setDob] = useState("");
-  const { setIsAuthenticated, setLoggedInUser } = useAuth()
+  const { setIsAuthenticated, setLoggedInUser, isAuthenticated, loggedInUser } = useAuth()
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (loggedInUser.role === "student")
+        navigate('/home');
+      else
+        navigate('/')
+    } else {
+      navigate("/")
+    }
+  }, [isAuthenticated])
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
