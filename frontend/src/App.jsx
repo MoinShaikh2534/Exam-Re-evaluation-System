@@ -2,13 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import StudentDashboard from "./pages/StudentDashboard";
-import Casher from "./pages/Casher";
+import Casher from "./pages/Cashier";
 import Result from "./pages/Result";
 import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
-import Logout from "./pages/Logout";
 import FacultyLogin from "./pages/FacultyLogin";
 import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
+import EvaluatorDashboard from "./pages/EvaluatorDashboard";
+import Logout from "./pages/Logout";
 import { useAuth } from "./contexts/AuthContext";
 import {Role} from "../utils/enums"
 useAuth
@@ -71,6 +72,7 @@ const App = () => {
             }
           />
         </Route>
+        <Route path="/facultydashboard" element={<EvaluatorDashboard />} />
       </Routes>
     </Router>
   );
