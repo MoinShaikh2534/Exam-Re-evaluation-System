@@ -1,12 +1,17 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-const Navbar = () => {
-const {loggedInUser}  = useAuth()
-  function handleLogout() {
-    loggedInUser.setLoggedInUser(null);
-    loggedInUser.setIsAuthenticated(false);
+import { Role } from '../../utils/enums';
 
+const Navbar = () => {
+  const { loggedInUser, logout } = useAuth();
+
+  async function handleLogout() {
+    logout();
   }
+
+  // Check if the user is a Faculty (Checker) or Cashier
+  const isFacultyOrCashier =
+    loggedInUser?.role === Role.CHECKER || loggedInUser?.role === Role.CASHIER;
 
   return (
     <nav className="bg-white p-4 shadow-lg">
@@ -19,35 +24,42 @@ const {loggedInUser}  = useAuth()
         {/* Navigation Links */}
         <div className="flex-1 flex justify-end">
           <ul className="flex space-x-2 text-lg font-medium">
-            <li>
-              <a
-                href="/home"
-                className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="/result"
-                className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
-              >
-                Result
-              </a>
-            </li>
-            <li>
-              <a
-                href="/re-evaluation"
-                className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
-              >
-                Re-evaluation
-              </a>
-            </li>
+            {/* Show only if the user is NOT Faculty or Cashier */}
+            {!isFacultyOrCashier && (
+              <>
+                <li>
+                  <a
+                    href="/home"
+                    className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
+                  >
+                    Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/result"
+                    className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
+                  >
+                    Result
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/re-evaluation"
+                    className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
+                  >
+                    Re-evaluation
+                  </a>
+                </li>
+              </>
+            )}
+
+            {/* Logout Button (Visible for all users) */}
             <li>
               <a
                 onClick={handleLogout}
                 href="/"
-                className="text-red-600 hover:bg-red-200 py-2 px-4 rounded-lg transition duration-300"
+                className="text-red-600 hover:bg-red-200 py-2 px-4 rounded-lg transition duration-300 cursor-pointer"
               >
                 Logout
               </a>

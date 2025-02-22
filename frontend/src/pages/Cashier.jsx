@@ -16,8 +16,8 @@ const TableRow = ({ request, index, handleStatusChange }) => (
     <td className="p-4 border">{request.questions}</td>
     <td className="p-4 border">{request.transID}</td>
     <td className={`p-4 border font-semibold ${request.status === "Approved" ? "text-green-600" : request.status === "Rejected" ? "text-red-600" : "text-yellow-500"}`}>
-      {request.status}
-    </td>
+  {request.status}
+</td>
     <td className="p-4 border flex justify-center gap-2">
       <button
         onClick={() => handleStatusChange(index, "Approved")}

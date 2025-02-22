@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import FacultyNavbar from "../components/FacultyNavbar";
-
+import Avatar from "../assets/avatar.jpg"
 
 const initialSubmissions = [
   { id: 1, student: "Alice", subject: "Data Structures", date: "Feb 15, 2025", status: "Pending" },
@@ -9,7 +8,7 @@ const initialSubmissions = [
 ];
 
 const faculty = {
-  profilePic: "path/to/profilePic.jpg",
+  profilePic: Avatar,
   name: "John Doe",
   branch: "Computer Science",
 };
@@ -28,7 +27,6 @@ function EvaluatorDashboard() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <FacultyNavbar faculty={faculty} /> {/* Pass the student object as a prop */}
       <div className="p-6 flex justify-center">
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
           {/* Header */}

@@ -26,9 +26,9 @@ const FacultyLogin = () => {
       if (response.status !== 200)
         throw new Error("Login Failed")
       console.log(response.data.data.faculty);
-      navigate('/home')
+      navigate('/facultydashboard')
 
-      setLoggedInUser(response.data.data.student);
+      setLoggedInUser(response.data.data.faculty);
       setIsAuthenticated(true);
 
 
