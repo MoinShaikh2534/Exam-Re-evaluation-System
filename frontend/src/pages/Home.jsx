@@ -10,9 +10,9 @@ const results = [
 
 function Home() {
   return (
-    <div className="bg-gray-100 px-6 py-4">
+    <div className="bg-gray-100 px-10 py-6">
       {/* Cards Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto mt-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-8xl mx-auto mt-0">
         {results.map((result, index) => (
           <div
             key={index}
