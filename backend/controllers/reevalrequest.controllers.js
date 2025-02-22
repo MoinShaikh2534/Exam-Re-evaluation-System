@@ -28,6 +28,8 @@ const applyReevalRequest = asyncHandler(async (req, res) => {
     });
     await newRequest.save();
     const student = await Student.findById(studentId);
+    student.appliedForReevaluation = true;
+    await student.save();
     const mailOptions = new MailOptions(
         appConfig.authEmail,
         student.email,
