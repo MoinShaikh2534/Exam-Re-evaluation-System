@@ -1,5 +1,5 @@
 import React from "react";
-
+import avatar from '../assets/avatar.jpg'
 const Profile = () => {
   return (
     <div className="flex items-center w-full bg-[#201547] text-white rounded-lg p-2 shadow-lg ">
@@ -7,16 +7,16 @@ const Profile = () => {
       <div className="w-1/4 flex items-center justify-center bg-gradient-to-b from-yellow-500 to-yellow-700 p-3 rounded-l-xl mx-2 ">
         <img
           className="w-24 h-24 rounded-full border-4 border-white"
-          src="/path-to-your-image.jpg" // Replace with actual image path
+          src= {avatar} // Replace with actual image path
           alt="Profile"
         />
-        <h2 className="text-lg font-semibold ml-4">MOIN SHAIKH</h2>
+        <h2 className="text-lg font-semibold ml-4">NEERAJ SURNIS</h2>
       </div>
 
       {/* Right Section - Profile Details */}
       <div className="flex-1 p-6 flex justify-end">
         <div>
-          <p className="text-gray-100 text-lg">22UCS119</p>
+          <p className="text-gray-100 text-lg">23UCS320</p>
           <p className="text-gray-100 text-lg">Computer Science and Department</p>
           <p className="text-gray-100 text-lg">B.Tech-UCS</p>
           <div className="flex space-x-4">
