@@ -50,7 +50,7 @@ const StudentLogin = () => {
   return (
     <section
       className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-      style={{ backgroundImage: 'url(/dkte.jpeg)' }}
+      style={{ backgroundImage: 'url(/DKTE-1.jpg)' }}
     >
       <Toaster />
       <div className="bg-white p-8 rounded-lg shadow-lg w-96 bg-opacity-90 relative z-10">
