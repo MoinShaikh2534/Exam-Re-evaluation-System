@@ -1,12 +1,11 @@
 import React from "react";
 
 const results = [
-  { subject: "Data Structures", date: "Dec 15, 2023", score: "85/100", status: "pending" },
-  { subject: "Algorithm Analysis", date: "Dec 18, 2023", score: "92/100", status: "reviewed" },
-  { subject: "Java", date: "Dec 24, 2023", score: "90/100", status: "reviewed" },
-  { subject: "Algorithm Analysis", date: "Dec 18, 2023", score: "92/100", status: "reviewed" },
-  { subject: "Algorithm Analysis", date: "Dec 18, 2023", score: "92/100", status: "pending" },
-];
+  { subject: "Mathematics", date: "Dec 15, 2023", score: "85/100", status: "pending" },
+  { subject: "Operating Systems", date: "Dec 18, 2023", score: "92/100", status: "reviewed" },
+  { subject: "Database Engineering", date: "Dec 24, 2023", score: "90/100", status: "reviewed" },
+  { subject: "Unix Internals", date: "Dec 18, 2023", score: "92/100", status: "reviewed" },
+  { subject: "Computer Algorithms", date: "Dec 18, 2023", score: "92/100", status: "pending" },];
 
 function StudentDashboard() {
   return (

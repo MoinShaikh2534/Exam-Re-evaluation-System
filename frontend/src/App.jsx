@@ -8,10 +8,14 @@ import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
 import Logout from "./pages/Logout";
 import FacultyLogin from "./pages/FacultyLogin";
-import Home from "./pages/Home";
 import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
-
+import { useAuth } from "./contexts/AuthContext";
+import {Role} from "../utils/enums"
+useAuth
 const App = () => {
+  const { loggedInUser } = useAuth();
+  console.log('loggedInUser',loggedInUser);
+  
   return (
     <Router>
       <Routes>
@@ -23,11 +27,22 @@ const App = () => {
         <Route
           element={<Layout />} // Apply Layout to all except login
         >
+
+          <Route
+            path="/cashier"
+            element={
+              // <LoginRestrictedRoute>
+                
+              // </LoginRestrictedRoute>
+              <Casher/>
+
+            }
+          />
           <Route
             path="/home"
             element={
               <LoginRestrictedRoute>
-                <Home />
+                <StudentDashboard />
               </LoginRestrictedRoute>
             }
           />
