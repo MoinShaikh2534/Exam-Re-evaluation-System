@@ -8,7 +8,7 @@ const results = [
   { subject: "Algorithm Analysis", date: "Dec 18, 2023", score: "92/100", status: "pending" },
 ];
 
-function Home() {
+function StudentDashboard() {
   return (
     <div className="bg-gray-100 px-10 py-8">
       {/* Cards Layout */}
@@ -39,6 +39,6 @@ function Home() {
   );
 }
 
-export default Home;
+export default StudentDashboard;
 
 

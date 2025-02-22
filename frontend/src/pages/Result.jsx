@@ -17,14 +17,8 @@ const Result = () => {
   const percentage = ((totalMarksObtained / totalMaxMarks) * 100).toFixed(2);
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg">
-      <div className="flex flex-col items-center bg-blue-100 p-4 rounded-lg mb-6 shadow-md">
-        <div className="text-center">
-          <span className="text-2xl font-bold text-blue-700">Percentage</span>
-          <hr className="border-t-2 border-blue-700 w-full my-2" />
-          <span className="text-2xl font-bold text-blue-700">{percentage}%</span>
-        </div>
-      </div>
+    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg mt-2">
+      
       <h2 className="text-3xl font-semibold text-center text-blue-700 mb-6">Exam Results</h2>
       <table className="w-full border-collapse border border-gray-300">
         <thead>
@@ -51,6 +45,10 @@ const Result = () => {
           </tr>
         </tbody>
       </table>
+      <div className='text-right mt-4'>
+      <span className="text-xl text-bold">Percentage: {percentage}%</span>
+      </div>
+      
     </div>
   );
 };

@@ -44,19 +44,19 @@ const ReEvaluation = () => {
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">Name:</label>
+          <label className="block text-left mb-2 text-gray-700 font-bold">Name:</label>
           <input type="text" value={name} readOnly className="border p-2 rounded w-full" />
         </div>
         <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">PRN:</label>
+          <label className="block text-left mb-2 text-gray-700 font-bold">PRN:</label>
           <input type="text" value={prn} readOnly className="border p-2 rounded w-full" />
         </div>
         <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">Branch:</label>
+          <label className="block text-left mb-2 text-gray-700 font-bold">Branch:</label>
           <input type="text" value={branch} readOnly className="border p-2 rounded w-full" />
         </div>
         <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">Subjects:</label>
+          <label className="block text-left mb-2 text-gray-700 font-bold">Subjects:</label>
           <div className="flex flex-wrap items-start">
             {Object.keys(subjects).map((subject) => (
               <label key={subject} className="mb-2 flex items-center mr-4">
@@ -72,16 +72,16 @@ const ReEvaluation = () => {
             ))}
           </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">QR Code for Payment:</label>
+        <label className="block text-left mb-2 text-gray-700 font-bold">QR Code for Payment:</label>
+        <div className="mb-4 items-center flex justify-center">
           <img
             src="QR.jpg" // Replace with the actual path to your QR code image
             alt="QR Code"
-            className="border p-2 rounded w-full"
+            className="border p-2 rounded w-70"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-left mb-2 text-gray-700">Transaction ID:</label>
+          <label className="block text-left mb-2 text-gray-700 font-bold">Transaction ID:</label>
           <input
             type="text"
             value={transactionId}
