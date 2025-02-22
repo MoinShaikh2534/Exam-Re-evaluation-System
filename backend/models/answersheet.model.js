@@ -11,10 +11,6 @@ const AnswerSheetSchema = new Schema({
         type: String,
         required: true,
     },
-    assignedFaculty: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Faculty",
-    },
     subject: {
         code: String,
         name: String,
