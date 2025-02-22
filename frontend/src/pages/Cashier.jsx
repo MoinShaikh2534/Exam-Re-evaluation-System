@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 
 const requests = [
-  { sName: "John Doe", branch: "CSE", year: "3rd", fees: "₹500", papers: 2, transID: "TXN12345", status: "Pending" },
-  { sName: "Jane Smith", branch: "IT", year: "2nd", fees: "₹300", papers: 1, transID: "TXN67890", status: "Pending" },
-  { sName: "Alice Brown", branch: "ECE", year: "4th", fees: "₹700", papers: 3, transID: "TXN11223", status: "Pending" },
+  { sName: "John Doe", branch: "CSE", year: "3rd", fees: "₹500", subject: "Data Structures", questions: 10, transID: "TXN12345", status: "Pending" },
+  { sName: "Jane Smith", branch: "IT", year: "2nd", fees: "₹300", subject: "Algorithms", questions: 8, transID: "TXN67890", status: "Pending" },
+  { sName: "Alice Brown", branch: "ECE", year: "4th", fees: "₹700", subject: "Networks", questions: 12, transID: "TXN11223", status: "Pending" },
 ];
 
 const TableRow = ({ request, index, handleStatusChange }) => (
@@ -12,7 +12,8 @@ const TableRow = ({ request, index, handleStatusChange }) => (
     <td className="p-4 border">{request.branch}</td>
     <td className="p-4 border">{request.year}</td>
     <td className="p-4 border">{request.fees}</td>
-    <td className="p-4 border">{request.papers}</td>
+    <td className="p-4 border">{request.subject}</td>
+    <td className="p-4 border">{request.questions}</td>
     <td className="p-4 border">{request.transID}</td>
     <td className={`p-4 border font-semibold ${request.status === "Approved" ? "text-green-600" : request.status === "Rejected" ? "text-red-600" : "text-yellow-500"}`}>
       {request.status}
@@ -34,7 +35,7 @@ const TableRow = ({ request, index, handleStatusChange }) => (
   </tr>
 );
 
-function Casher() {
+function Cashier() {
   const [data, setData] = useState(requests);
 
   const handleStatusChange = useCallback((index, newStatus) => {
@@ -58,7 +59,8 @@ function Casher() {
                 <th className="p-4 border">Branch</th>
                 <th className="p-4 border">Year</th>
                 <th className="p-4 border">Fees</th>
-                <th className="p-4 border">No. of Papers</th>
+                <th className="p-4 border">Subject</th>
+                <th className="p-4 border">No. of Questions</th>
                 <th className="p-4 border">Transaction ID</th>
                 <th className="p-4 border">Status</th>
                 <th className="p-4 border">Actions</th>
@@ -76,4 +78,4 @@ function Casher() {
   );
 }
 
-export default Casher;
+export default Cashier;
