@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import FacultyNavbar from "../components/FacultyNavbar";
 import Avatar from "../assets/avatar.jpg"
 
 const initialSubmissions = [
@@ -28,7 +27,6 @@ function EvaluatorDashboard() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <FacultyNavbar faculty={faculty} /> {/* Pass the student object as a prop */}
       <div className="p-6 flex justify-center">
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
           {/* Header */}

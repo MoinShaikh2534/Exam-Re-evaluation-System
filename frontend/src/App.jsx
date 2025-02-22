@@ -2,21 +2,20 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import StudentDashboard from "./pages/StudentDashboard";
-import Casher from "./pages/Cashier";
+import Cashier from "./pages/Cashier";
 import Result from "./pages/Result";
 import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
 import FacultyLogin from "./pages/FacultyLogin";
 import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
-import EvaluatorDashboard from "./pages/EvaluatorDashboard";
 import Logout from "./pages/Logout";
 import { useAuth } from "./contexts/AuthContext";
-import {Role} from "../utils/enums"
-useAuth
+import FacultyDashboard from "./dashboards/FacultyDashboard";
+
 const App = () => {
   const { loggedInUser } = useAuth();
-  console.log('loggedInUser',loggedInUser);
-  
+  console.log("loggedInUser", loggedInUser);
+
   return (
     <Router>
       <Routes>
@@ -25,18 +24,13 @@ const App = () => {
         <Route path="/faculty/login" element={<FacultyLogin />} />
 
         {/* Protected Routes (With Layout) */}
-        <Route
-          element={<Layout />} // Apply Layout to all except login
-        >
-
+        <Route element={<Layout />}>
           <Route
             path="/cashier"
             element={
-              // <LoginRestrictedRoute>
-                
-              // </LoginRestrictedRoute>
-              <Casher/>
-
+              <LoginRestrictedRoute>
+                <Cashier />
+              </LoginRestrictedRoute>
             }
           />
           <Route
@@ -71,10 +65,15 @@ const App = () => {
               </LoginRestrictedRoute>
             }
           />
-            <Route path="/student" element={<StudentDashboard />} />
+          <Route
+            path="/facultydashboard"
+            element={
+              <LoginRestrictedRoute>
+                <FacultyDashboard userRole={loggedInUser?.role} />
+              </LoginRestrictedRoute>
+            }
+          />
         </Route>
-        <Route path="/facultydashboard" element={<EvaluatorDashboard />} />
-      
       </Routes>
     </Router>
   );

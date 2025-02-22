@@ -7,6 +7,8 @@ const StudentLogin = () => {
   const [prn, setPrn] = useState("");
   const [dob, setDob] = useState("");
   const { setIsAuthenticated, setLoggedInUser, isAuthenticated, loggedInUser } = useAuth()
+  console.log(loggedInUser);
+  
   const navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated) {
