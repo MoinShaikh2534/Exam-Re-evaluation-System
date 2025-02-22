@@ -1,49 +1,47 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 
 const FacultyLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setIsAuthenticated, setLoggedInUser } = useAuth()
-  const navigate = useNavigate()
+  const { setIsAuthenticated, setLoggedInUser } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
 
     try {
       const loginURL = import.meta.env.VITE_API_URL + '/auth/faculty/login';
       const response = await axios.post(loginURL, {
         email,
         password
-      },
-        {
-          withCredentials: true
-        })
+      }, {
+        withCredentials: true
+      });
 
-      console.log('response', response);
       if (response.status !== 200)
-        throw new Error("Login Failed")
-      console.log(response.data.data.faculty);
-      navigate('/facultydashboard')
+        throw new Error("Login Failed");
 
       setLoggedInUser(response.data.data.faculty);
       setIsAuthenticated(true);
-
-
+      toast.success('Login successful!');
+      navigate('/facultydashboard');
     } catch (error) {
+      toast.error('Login failed. Please check your email and password.');
       console.log('error' + error);
-
     }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+      <Toaster />
       <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 p-6">
-
         <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center">
-          Faculty Login</h2>
+          Faculty Login
+        </h2>
         <form className="space-y-4 mt-4" onSubmit={handleSubmit}>
           <div>
             <label
@@ -106,7 +104,7 @@ const FacultyLogin = () => {
           >
             Sign in
           </button>
-          <div className="flex tw font-bold hover:underline items-center tw text-white   justify-center ">
+          <div className="flex tw font-bold hover:underline items-center tw text-white justify-center">
             <a href="/" className="tw">
               Sign-in as Student
             </a>

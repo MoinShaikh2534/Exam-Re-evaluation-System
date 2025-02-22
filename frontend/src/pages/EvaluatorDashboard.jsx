@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Avatar from "../assets/avatar.jpg"
+import Avatar from "../assets/avatar.jpg";
+import { Toaster, toast } from 'react-hot-toast';
 
 const initialSubmissions = [
   { id: 1, student: "Alice", subject: "Data Structures", date: "Feb 15, 2025", status: "Pending" },
@@ -23,10 +24,12 @@ function EvaluatorDashboard() {
         submission.id === id ? { ...submission, status: "Checked" } : submission
       )
     );
+    toast.success('Submission marked as checked!');
   };
 
   return (
     <div className="bg-gray-100 min-h-screen">
+      <Toaster />
       <div className="p-6 flex justify-center">
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-lg p-6">
           {/* Header */}
