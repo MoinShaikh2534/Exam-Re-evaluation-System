@@ -7,7 +7,7 @@ import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
 import Logout from "./pages/Logout";
 import FacultyLogin from "./pages/FacultyLogin";
-
+import Home from "./pages/Home";
 const App = () => {
   return (
     <Router>
