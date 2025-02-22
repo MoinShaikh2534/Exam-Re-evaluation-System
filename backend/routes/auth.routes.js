@@ -21,9 +21,9 @@ router.get("/is-auth", verifyToken, isAuth);
 router.post("/student/register", studentRegister);
 router.post("/student/login", studentLogin);
 
+router.post("/logout", logout);
 router.post("/faculty/register", registerFaculty);
 router.post("/faculty/login", loginFaculty);
-router.post("/faculty/logout", logout);
 router.get("/faculty/profile", verifyToken, getFacultyProfile);
 router.get("/faculty/all", verifyToken, getAllFaculty);
 

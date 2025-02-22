@@ -5,11 +5,11 @@ const Role = {
 };
 
 const RequestStatus = {
+    NONE: "",
     PENDING: "pending",
-    APPROVED: "approved",
     REJECTED: "rejected",
     RECHECKING: "rechecking",
-    COMPLETED: "completed",
+    RECHECKED: "rechecked",
 };
 module.exports = {
     Role,

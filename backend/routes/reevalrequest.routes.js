@@ -8,14 +8,13 @@ const {
     applyReevalRequest,
 } = require("../controllers/reevalrequest.controllers");
 const { Role } = require("../utils/enums");
-const upload = require("../config/multerConfig");
 
 router.post(
     "/apply",
-    upload.single("proof"),
     verifyToken,
     authorizeRoles([Role.STUDENT]),
     applyReevalRequest,
 );
 
+// router.post("/approve", verifyToken, authorizeRoles([Role.CASHIER]));
 module.exports = router;

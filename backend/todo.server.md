@@ -1,2 +1,3 @@
-- get requested request by student
-- reject request with reason, send email to student
+-   get requested request by student
+-   reject request with reason, send email to student
+-   get requests assigned to faculty

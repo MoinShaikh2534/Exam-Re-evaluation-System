@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { RequestStatus } = require("../utils/enums");
 
 const AnswerSheetSchema = new Schema({
     student: {
@@ -18,6 +19,17 @@ const AnswerSheetSchema = new Schema({
     pdfPath: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        enum: [
+            RequestStatus.NONE,
+            RequestStatus.PENDING,
+            RequestStatus.REJECTED,
+            RequestStatus.RECHECKING,
+            RequestStatus.RECHECKED,
+        ],
+        default: RequestStatus.NONE,
     },
     questionMarks: [
         {

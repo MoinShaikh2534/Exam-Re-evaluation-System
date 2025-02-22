@@ -1,4 +1,4 @@
-const AnswerSheet = require("../models/answerSheet.model");
+const AnswerSheet = require("../models/answersheet.model");
 const asyncHandler = require("../utils/asyncHandler");
 const { createError, createResponse } = require("../utils/responseHandler");
 const fs = require("fs");
@@ -81,7 +81,6 @@ const downloadAnswerSheet = asyncHandler(async (req, res, next) => {
     res.download(answerSheet.pdfPath, answerSheet.fileUniqueName);
 });
 
-
 const calculateTotalMarks = async (req, res, next) => {
     try {
         const { studentId } = req.params;
@@ -92,14 +91,17 @@ const calculateTotalMarks = async (req, res, next) => {
             throw createError(404, "No answer sheets found for the student.");
         }
 
-        let totalObtained = 0, totalMaxMarks = 0;
-        let reevaluatedTotal = 0, reevaluatedMaxMarks = 0;
+        let totalObtained = 0,
+            totalMaxMarks = 0;
+        let reevaluatedTotal = 0,
+            reevaluatedMaxMarks = 0;
         let subjectWiseMarks = [];
 
-        answerSheets.forEach(sheet => {
+        answerSheets.forEach((sheet) => {
             let subjectObtained = sheet.totalObtained || 0;
             let subjectMaxMarks = sheet.totalMaxMarks || 0;
-            let subjectReevalObtained = sheet.reevaluatedTotal || subjectObtained;
+            let subjectReevalObtained =
+                sheet.reevaluatedTotal || subjectObtained;
             let subjectReevalMaxMarks = sheet.totalMaxMarks;
 
             // Accumulate total marks
@@ -120,7 +122,8 @@ const calculateTotalMarks = async (req, res, next) => {
 
         // Determine pass/fail status (assuming 40% passing criteria)
         const passPercentage = 40;
-        const isPassed = (reevaluatedTotal / totalMaxMarks) * 100 >= passPercentage;
+        const isPassed =
+            (reevaluatedTotal / totalMaxMarks) * 100 >= passPercentage;
 
         return res.status(200).json(
             createResponse("Student result calculated successfully", {
@@ -131,7 +134,7 @@ const calculateTotalMarks = async (req, res, next) => {
                 reevaluatedMaxMarks,
                 passStatus: isPassed ? "Passed" : "Failed",
                 subjectWiseMarks,
-            })
+            }),
         );
     } catch (error) {
         next(error);
@@ -149,8 +152,9 @@ const updateTotalMarks = async (req, res, next) => {
         }
 
         // Calculate total obtained and max marks
-        let totalObtained = 0, totalMaxMarks = 0;
-        answerSheet.questionMarks.forEach(q => {
+        let totalObtained = 0,
+            totalMaxMarks = 0;
+        answerSheet.questionMarks.forEach((q) => {
             totalObtained += q.marksObtained;
             totalMaxMarks += q.maxMarks;
         });
@@ -165,14 +169,12 @@ const updateTotalMarks = async (req, res, next) => {
                 fileUniqueName,
                 totalObtained,
                 totalMaxMarks,
-            })
+            }),
         );
     } catch (error) {
         next(error);
     }
 };
- 
-
 
 // Delete Answer Sheet (Optional)
 const deleteAnswerSheet = asyncHandler(async (req, res, next) => {
@@ -193,4 +195,10 @@ const deleteAnswerSheet = asyncHandler(async (req, res, next) => {
     return res.status(200).json(createResponse("File deleted successfully"));
 });
 
-module.exports = { uploadAnswerSheet, downloadAnswerSheet, deleteAnswerSheet,calculateTotalMarks,updateTotalMarks };
+module.exports = {
+    uploadAnswerSheet,
+    downloadAnswerSheet,
+    deleteAnswerSheet,
+    calculateTotalMarks,
+    updateTotalMarks,
+};

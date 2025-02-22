@@ -3,12 +3,23 @@ const { Schema } = mongoose;
 const { RequestStatus } = require("../utils/enums");
 
 const ReevalRequestSchema = new Schema({
-    student: {
+    studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student",
         required: true,
     },
-    answerSheets: [String],
+    answerSheetId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AnswerSheet",
+        required: true,
+    },
+    requestedMarks: [
+        {
+            questionNumber: Number,
+            requestedMarks: Number,
+            description: String,
+        },
+    ],
     status: {
         type: String,
         enum: [
@@ -22,10 +33,6 @@ const ReevalRequestSchema = new Schema({
     },
     transactionId: String,
     paymentAmount: Number,
-    paymentProof: {
-        type: String, // This will store the URL/path of the uploaded image
-        required: true,
-    },
     completionDate: Date,
     assignedFaculty: {
         type: mongoose.Schema.Types.ObjectId,
