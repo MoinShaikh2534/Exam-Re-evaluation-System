@@ -6,6 +6,10 @@ const {loggedInUser}  = useAuth()
     loggedInUser.setLoggedInUser(null);
     loggedInUser.setIsAuthenticated(false);
 
+    const logoutURL = import.meta.env.VITE_API_URL + '/auth/logout';
+    const res  = axios.post(logoutURL);
+    console.log(res);
+    
   }
 
   return (

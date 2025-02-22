@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FacultyNavbar from "../components/FacultyNavbar";
-
+import Avatar from "../assets/avatar.jpg"
 
 const initialSubmissions = [
   { id: 1, student: "Alice", subject: "Data Structures", date: "Feb 15, 2025", status: "Pending" },
@@ -9,7 +9,7 @@ const initialSubmissions = [
 ];
 
 const faculty = {
-  profilePic: "path/to/profilePic.jpg",
+  profilePic: Avatar,
   name: "John Doe",
   branch: "Computer Science",
 };
