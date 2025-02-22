@@ -1,7 +1,9 @@
 const Student = require("../models/student.model");
 const Faculty = require("../models/faculty.model");
 const asyncHandler = require("../utils/asyncHandler");
+const { Role } = require("../utils/enums");
 const { createError, createResponse } = require("../utils/responseHandler");
+const { hash, compareHash } = require("../utils/hash");
 const jwt = require("jsonwebtoken");
 
 const studentRegister = asyncHandler(async (req, res) => {
@@ -101,7 +103,9 @@ const registerFaculty = asyncHandler(async (req, res) => {
         throw createError(400, "All fields are required.");
     }
 
-    const existingUser = await Faculty.findOne({ $or: [{ email }, { username }] });
+    const existingUser = await Faculty.findOne({
+        $or: [{ email }, { username }],
+    });
     if (existingUser) {
         throw createError(400, "Email or username already in use.");
     }
@@ -132,6 +136,9 @@ const registerFaculty = asyncHandler(async (req, res) => {
 // Faculty Login
 const loginFaculty = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
+    if (!email || !password) {
+        throw createError(400, "Email and password are required.");
+    }
     const faculty = await Faculty.findOne({ email });
 
     if (!faculty) throw createError(400, "Invalid credentials");
@@ -178,10 +185,28 @@ const logout = asyncHandler(async (req, res) => {
     res.status(200).json(createResponse("Logout successful"));
 });
 
+const isAuth = asyncHandler(async (req, res) => {
+    if (req.user.role === Role.CHECKER || req.user.role === Role.CASHIER) {
+        req.user.password = undefined;
+        return res.status(200).json(
+            createResponse("Auth successful", {
+                user: req.user,
+            }),
+        );
+    } else {
+        return res.status(200).json(
+            createResponse("Auth successful", {
+                user: req.user,
+            }),
+        );
+    }
+});
+
 module.exports = {
     studentRegister,
     studentLogin,
     registerFaculty,
     loginFaculty,
     logout,
+    isAuth,
 };

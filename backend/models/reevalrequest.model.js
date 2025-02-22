@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { RequestStatus } = require("../utils/enums");
 
 const ReevalRequestSchema = new Schema({
     student: {
@@ -10,11 +11,21 @@ const ReevalRequestSchema = new Schema({
     answerSheets: [String],
     status: {
         type: String,
-        enum: ["pending", "approved", "rejected", "rechecking", "completed"],
+        enum: [
+            RequestStatus.PENDING,
+            RequestStatus.APPROVED,
+            RequestStatus.REJECTED,
+            RequestStatus.RECHECKING,
+            RequestStatus.COMPLETED,
+        ],
         default: "pending",
     },
     transactionId: String,
     paymentAmount: Number,
+    paymentProof: {
+        type: String, // This will store the URL/path of the uploaded image
+        required: true,
+    },
     completionDate: Date,
     assignedFaculty: {
         type: mongoose.Schema.Types.ObjectId,
