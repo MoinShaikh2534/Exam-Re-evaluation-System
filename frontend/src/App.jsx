@@ -11,12 +11,14 @@ import Logout from "./pages/Logout";
 const App = () => {
   return (
     <Router>
-      <Layout>
         <Routes>
+
+          <Route path="/faculty/login" element={<Login />} />
+        </Routes>
+      <Layout>
           <Route path="/" element={<Home />} />
           <Route path="/result" element={<Result />} />
           <Route path="/re-evaluation" element={<ReEvaluation />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </Layout>
