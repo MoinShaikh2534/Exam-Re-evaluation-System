@@ -7,8 +7,8 @@ const { verifyToken } = require("../middlewares/auth.middlewares");
 const {
     registerFaculty,
     loginFaculty,
-
     logout,
+    isAuth,
 } = require("../controllers/auth.controllers");
 
 const {
@@ -17,6 +17,7 @@ const {
 } = require("../controllers/faculty.controllers");
 const router = express.Router();
 
+router.get("/is-auth", verifyToken, isAuth);
 router.post("/student/register", studentRegister);
 router.post("/student/login", studentLogin);
 

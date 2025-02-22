@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Faculty = require("../models/faculty.model");
+const Student = require("../models/student.model");
 const asyncHandler = require("../utils/asyncHandler");
 const { createError } = require("../utils/responseHandler");
 const { Role } = require("../utils/enums");
