@@ -24,4 +24,11 @@ const verifyToken = asyncHandler(async (req, res, next) => {
     next();
 });
 
-module.exports = { verifyToken };
+const authorizeRoles = (roles) => (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+        throw createError(400, "Access denied!");
+    }
+    next();
+};
+
+module.exports = { verifyToken, authorizeRoles };

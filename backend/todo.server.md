@@ -1,0 +1,2 @@
+- get requested request by student
+- reject request with reason, send email to student

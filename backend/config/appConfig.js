@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 
 const config = {
     port: process.env.PORT || 5000,
@@ -6,7 +7,11 @@ const config = {
     jwtSecret: process.env.JWT_SECRET,
     authEmail: process.env.AUTH_EMAIL,
     authPass: process.env.AUTH_PASS,
-    baseUploadDir: process.env.BASE_UPLOAD_DIR,
+    baseUploadDir: path.join(
+        __dirname,
+        "..",
+        process.env.BASE_UPLOAD_DIR || "uploads",
+    ),
 };
 
 // List of required environment variables
