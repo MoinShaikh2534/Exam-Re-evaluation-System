@@ -10,8 +10,8 @@ const uploadAnswerSheet = asyncHandler(async (req, res, next) => {
         throw createError(400, "No file uploaded.");
     }
 
-    const { student, subjectCode, subjectName } = req.body;
-    if (!student || !subjectCode || !subjectName) {
+    const { studentId, subjectCode, subjectName } = req.body;
+    if (!studentId || !subjectCode || !subjectName) {
         throw createError(
             400,
             "Student ID, Subject Code, and Subject Name are required.",
@@ -45,7 +45,7 @@ const uploadAnswerSheet = asyncHandler(async (req, res, next) => {
 
     // Save to database
     const newAnswerSheet = new AnswerSheet({
-        student,
+        studentId,
         fileUniqueName: req.file.filename,
         pdfPath: req.file.path,
         subject: { code: subjectCode, name: subjectName },
@@ -85,7 +85,7 @@ const calculateTotalMarks = async (req, res, next) => {
     try {
         const { studentId } = req.params;
 
-        const answerSheets = await AnswerSheet.find({ student: studentId });
+        const answerSheets = await AnswerSheet.find({ studentId: studentId });
 
         if (!answerSheets || answerSheets.length === 0) {
             throw createError(404, "No answer sheets found for the student.");
@@ -195,10 +195,27 @@ const deleteAnswerSheet = asyncHandler(async (req, res, next) => {
     return res.status(200).json(createResponse("File deleted successfully"));
 });
 
+const getAllAnswerSheets = asyncHandler(async (req, res) => {
+    const { studentId } = req.body;
+    if (!studentId) {
+        throw createError(400, "Student ID is required");
+    }
+    const answerSheets = await AnswerSheet.find({ studentId: studentId });
+    return res
+        .status(200)
+        .json(
+            createResponse(
+                "All answer sheets fetched successfully!",
+                answerSheets,
+            ),
+        );
+});
+
 module.exports = {
     uploadAnswerSheet,
     downloadAnswerSheet,
     deleteAnswerSheet,
     calculateTotalMarks,
     updateTotalMarks,
+    getAllAnswerSheets,
 };
