@@ -9,6 +9,7 @@ const {
     approveReevalRequest,
     getAllReevalRequests,
     getAssignedRequests,
+    rejectReevalRequest,
 } = require("../controllers/reevalrequest.controllers");
 const { Role } = require("../utils/enums");
 
@@ -39,5 +40,12 @@ router.post(
     verifyToken,
     authorizeRoles([Role.CASHIER]),
     approveReevalRequest,
+);
+
+router.post(
+    "/reject",
+    verifyToken,
+    authorizeRoles([Role.CASHIER]),
+    rejectReevalRequest,
 );
 module.exports = router;
