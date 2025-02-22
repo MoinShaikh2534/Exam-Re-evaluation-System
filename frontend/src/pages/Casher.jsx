@@ -34,7 +34,7 @@ const TableRow = ({ request, index, handleStatusChange }) => (
   </tr>
 );
 
-function RevaluationRequests() {
+function Casher() {
   const [data, setData] = useState(requests);
 
   const handleStatusChange = useCallback((index, newStatus) => {
@@ -46,8 +46,8 @@ function RevaluationRequests() {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-12 flex items-center justify-center">
-      <div className="max-w-7xl w-full bg-white p-8 rounded-2xl shadow-lg border border-gray-300">
+    <div className="bg-gray-100 min-h-screen flex items-start justify-center pt-4">
+      <div className="max-w-7xl w-full bg-white p-8 rounded-2xl shadow-lg border border-gray-300 mt-4">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">List of Requests (Revaluation)</h2>
         
         <div className="overflow-x-auto">
@@ -76,4 +76,4 @@ function RevaluationRequests() {
   );
 }
 
-export default RevaluationRequests;
+export default Casher;

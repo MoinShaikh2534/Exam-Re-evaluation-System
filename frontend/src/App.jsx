@@ -8,7 +8,6 @@ import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
 import Logout from "./pages/Logout";
 import FacultyLogin from "./pages/FacultyLogin";
-import Home from "./pages/Home";
 const App = () => {
   return (
     <Router>
@@ -19,10 +18,10 @@ const App = () => {
 
 
         <Route element={<Layout />}>
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<StudentDashboard />} />
           <Route path="/result" element={<Result />} />
           <Route path="/re-evaluation" element={<ReEvaluation />} />
-          <Route path="/cashier" element={<Casher />} />
+          <Route path="/casher" element={<Casher />} />
           <Route path="/logout" element={<Logout />} />
         </Route>
       </Routes>
