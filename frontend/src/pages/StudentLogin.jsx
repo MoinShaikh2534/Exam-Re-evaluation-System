@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 import '../App.css';
 
 const StudentLogin = () => {
   const [prn, setPrn] = useState("");
   const [dob, setDob] = useState("");
-  const { setIsAuthenticated, setLoggedInUser, isAuthenticated, loggedInUser } = useAuth()
+  const { setIsAuthenticated, setLoggedInUser, isAuthenticated, loggedInUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,8 +39,10 @@ const StudentLogin = () => {
 
       setLoggedInUser(response.data.data.student);
       setIsAuthenticated(true);
+      toast.success('Login successful!');
       navigate('/home');
     } catch (error) {
+      toast.error('Login failed. Please check your PRN and Date of Birth.');
       console.log('error' + error);
     }
   };
@@ -47,8 +50,9 @@ const StudentLogin = () => {
   return (
     <section
       className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
-      style={{ backgroundImage: 'url(/DKTE-1.jpg)' }}
+      style={{ backgroundImage: 'url(/dkte.jpeg)' }}
     >
+      <Toaster />
       <div className="bg-white p-8 rounded-lg shadow-lg w-96 bg-opacity-90 relative z-10">
         <h1 className="text-gray-800 text-2xl font-bold text-center mb-6">Student Login</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
