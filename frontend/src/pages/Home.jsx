@@ -10,15 +10,15 @@ const results = [
 
 function Home() {
   return (
-    <div className="bg-gray-100 px-6 py-4">
+    <div className="bg-gray-100 px-10 py-8">
       {/* Cards Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto mt-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-0">
         {results.map((result, index) => (
           <div
             key={index}
             className="p-6 bg-white rounded-2xl shadow-md border border-blue-300 hover:shadow-2xl hover:scale-105 transition-transform duration-300 ease-in-out"
           >
-            <h3 className="text-xl font-bold text-grey-800">{result.subject}</h3>
+            <h3 className="text-2xl font-bold text-grey-800">{result.subject}</h3>
             <p className="text-gray-500 text-sm">{result.date}</p>
 
             {/* Thin Line Separator */}
@@ -28,6 +28,7 @@ function Home() {
             <p className={`text-sm font-semibold mt-1 ${result.status === "pending" ? "text-yellow-500" : "text-green-600"}`}>
               {result.status}
             </p>
+            <p>Click here to review your answersheet</p>
             <button className="mt-4 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 hover:shadow-lg transition-all duration-300 cursor-pointer">
               View
             </button>
@@ -39,3 +40,5 @@ function Home() {
 }
 
 export default Home;
+
+
