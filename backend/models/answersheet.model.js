@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const { RequestStatus } = require("../utils/enums");
 
 const AnswerSheetSchema = new Schema({
-    student: {
+    studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student",
         required: true,

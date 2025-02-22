@@ -29,7 +29,7 @@ const ReevalRequestSchema = new Schema({
             RequestStatus.RECHECKING,
             RequestStatus.COMPLETED,
         ],
-        default: "pending",
+        default: RequestStatus.PENDING,
     },
     transactionId: String,
     paymentAmount: Number,

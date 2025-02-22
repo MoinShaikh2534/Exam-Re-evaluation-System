@@ -6,6 +6,8 @@ const {
 } = require("../middlewares/auth.middlewares");
 const {
     applyReevalRequest,
+    approveReevalRequest,
+    getAllReevalRequests,
 } = require("../controllers/reevalrequest.controllers");
 const { Role } = require("../utils/enums");
 
@@ -16,5 +18,18 @@ router.post(
     applyReevalRequest,
 );
 
-// router.post("/approve", verifyToken, authorizeRoles([Role.CASHIER]));
+//for cashier, show in table
+router.get(
+    "/all",
+    verifyToken,
+    authorizeRoles([Role.CASHIER]),
+    getAllReevalRequests,
+);
+
+router.post(
+    "/approve",
+    verifyToken,
+    authorizeRoles([Role.CASHIER]),
+    approveReevalRequest,
+);
 module.exports = router;
