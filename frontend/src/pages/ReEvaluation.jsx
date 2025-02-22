@@ -1,21 +1,20 @@
 import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
+useAuth
 const ReEvaluation = () => {
   const [subjects, setSubjects] = useState({
     Mathematics: false,
-    Physics: false,
-    Chemistry: false,
-    Biology: false,
-    English: false,
-    History: false,
-    Geography: false,
-    ComputerScience: false,
+    Operating_Systems: false,
+    Database_Enggineering: false,
+    Unix_Internals: false,
+    Computer_Algorithms: false
   });
+  const { loggedInUser } = useAuth();
   const [transactionId, setTransactionId] = useState('');
-  const [name] = useState('MOIN SHAIKH');
-  const [prn] = useState('22UCS119');
-  const [branch] = useState('Computer Science and Department');
-
+  const [name] = useState(loggedInUser.name);
+  const [prn] = useState(loggedInUser.prn);
+  const [branch] = useState(loggedInUser.department);
   const handleSubjectChange = (e) => {
     setSubjects({
       ...subjects,
@@ -29,13 +28,12 @@ const ReEvaluation = () => {
     alert(`Re-evaluation requested for ${selectedSubjects.join(', ')} with Transaction ID: ${transactionId}`);
     setSubjects({
       Mathematics: false,
-      Physics: false,
-      Chemistry: false,
-      Biology: false,
-      English: false,
-      History: false,
-      Geography: false,
-      ComputerScience: false,
+      Operating_Systems: false,
+      Database_Enggineering: false,
+      Unix_Internals: false,
+      Computer_Algorithms: false
+
+
     });
     setTransactionId('');
   };
@@ -67,7 +65,7 @@ const ReEvaluation = () => {
                   onChange={handleSubjectChange}
                   className="mr-2"
                 />
-                {subject.replace(/([A-Z])/g, ' $1').trim()}
+                {subject.replace(/_/g, ' ')}
               </label>
             ))}
           </div>
