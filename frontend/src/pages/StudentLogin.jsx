@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-
+import { useAuth } from "../contexts/AuthContexts";
+import axios from 'axios'
 const StudentLogin = () => {
   const [prn, setPrn] = useState("");
   const [dob, setDob] = useState("");
-
+  const {isAuthenticated,setLoggedInUser} = useAuth()
   const handleSubmit = (e) => {
     e.preventDefault();
+
     // console.log("PRN:", prn);
-    console.log("DOB:", dob);
+    // console.log("DOB:", dob);
+    try {
+      const response = axios.post('localhost:4000/auth/student/login')
+          
+    } catch (error) {
+
+    }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 p-6">
         <div className="flex flex-col items-center mb-6">
-           
+
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
             Student Login
           </h1>

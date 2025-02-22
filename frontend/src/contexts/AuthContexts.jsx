@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 export const useAuth = () => React.useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [tempUser, setTempUser] = useState(null);
@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setLoggedInUser(null);
     setIsAuthenticated(false);
-    navigate("/");
+    // navigate("/");
   };
 
   const checkAuthStatus = async () => {

@@ -11,17 +11,19 @@ import Logout from "./pages/Logout";
 const App = () => {
   return (
     <Router>
-        <Routes>
+      <Routes>
+        {/* Public Login Routes */}
+        <Route path="/faculty/login" element={<Login />} />
+        <Route path="/student/login" element={<StudentLogin />} />
 
-          <Route path="/faculty/login" element={<Login />} />
-        </Routes>
-      <Layout>
+        {/* Protected Routes inside Layout */}
+        <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/result" element={<Result />} />
           <Route path="/re-evaluation" element={<ReEvaluation />} />
           <Route path="/logout" element={<Logout />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </Router>
   );
 };
