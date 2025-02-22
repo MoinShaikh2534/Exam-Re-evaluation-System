@@ -26,7 +26,7 @@ const applyReevalRequest = asyncHandler(async (req, res) => {
         throw createError(400, "Insufficient data");
     }
     const existingRequest = await ReevalRequest.findOne({
-        studentId,
+        answerSheetId,
     });
     if (existingRequest) {
         throw createError(400, "Request already exists");
@@ -111,4 +111,22 @@ const approveReevalRequest = asyncHandler(async (req, res) => {
         }),
     );
 });
-module.exports = { applyReevalRequest, approveReevalRequest };
+
+const getAllReevalRequests = asyncHandler(async (req, res) => {
+    const reevalRequests = await ReevalRequest.find({
+        status: RequestStatus.PENDING,
+    }).populate("studentId answerSheetId");
+    return res
+        .status(200)
+        .json(
+            createResponse(
+                "All reeval requests fetched successfully!",
+                reevalRequests,
+            ),
+        );
+});
+module.exports = {
+    applyReevalRequest,
+    approveReevalRequest,
+    getAllReevalRequests,
+};
