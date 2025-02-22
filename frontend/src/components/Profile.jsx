@@ -2,9 +2,9 @@ import React from "react";
 
 const Profile = () => {
   return (
-    <div className="flex items-center w-full bg-gray-800 text-white rounded-lg p-6 shadow-lg">
+    <div className="flex items-center w-full bg-[#201547] text-white rounded-lg p-2 shadow-lg ">
       {/* Left Section - Profile Image & Name */}
-      <div className="w-1/4 flex items-center justify-center bg-gradient-to-b from-yellow-500 to-yellow-700 p-6 rounded-l-xl">
+      <div className="w-1/4 flex items-center justify-center bg-gradient-to-b from-yellow-500 to-yellow-700 p-3 rounded-l-xl mx-2 ">
         <img
           className="w-24 h-24 rounded-full border-4 border-white"
           src="/path-to-your-image.jpg" // Replace with actual image path
