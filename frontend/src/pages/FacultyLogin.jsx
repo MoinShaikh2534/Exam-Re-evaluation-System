@@ -1,21 +1,49 @@
 import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
-const Login = () => {
+const FacultyLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (e) => {
+  const { setIsAuthenticated, setLoggedInUser } = useAuth()
+  const navigate = useNavigate()
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-    // Add login API call or authentication logic here
+
+
+    try {
+      const loginURL = import.meta.env.VITE_API_URL + '/auth/faculty/login';
+      const response = await axios.post(loginURL, {
+        email,
+        password
+      },
+        {
+          withCredentials: true
+        })
+
+      console.log('response', response);
+      if (response.status !== 200)
+        throw new Error("Login Failed")
+      console.log(response.data.data.faculty);
+      navigate('/home')
+
+      setLoggedInUser(response.data.data.student);
+      setIsAuthenticated(true);
+
+
+    } catch (error) {
+      console.log('error' + error);
+
+    }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700 p-6">
-        
+
         <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center">
-          Sign in As Faculty</h2>
+          Faculty Login</h2>
         <form className="space-y-4 mt-4" onSubmit={handleSubmit}>
           <div>
             <label
@@ -78,10 +106,15 @@ const Login = () => {
           >
             Sign in
           </button>
+          <div className="flex tw font-bold hover:underline items-center tw text-white   justify-center ">
+            <a href="/" className="tw">
+              Sign-in as Student
+            </a>
+          </div>
         </form>
       </div>
     </section>
   );
 };
 
-export default Login;
+export default FacultyLogin;

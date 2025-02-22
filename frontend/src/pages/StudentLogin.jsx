@@ -1,19 +1,50 @@
-import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContexts";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import '../App.css'
 const StudentLogin = () => {
   const [prn, setPrn] = useState("");
   const [dob, setDob] = useState("");
-  const {isAuthenticated,setLoggedInUser} = useAuth()
-  const handleSubmit = (e) => {
+  const { setIsAuthenticated, setLoggedInUser, isAuthenticated, loggedInUser } = useAuth()
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (loggedInUser.role === "student")
+        navigate('/home');
+      else
+        navigate('/')
+    } else {
+      navigate("/")
+    }
+  }, [isAuthenticated])
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log("PRN:", prn);
-    // console.log("DOB:", dob);
+
     try {
-      const response = axios.post('localhost:4000/auth/student/login')
-          
+      const loginURL = import.meta.env.VITE_API_URL + '/auth/student/login';
+      const response = await axios.post(loginURL, {
+        prn,
+        dob
+      },
+        {
+          withCredentials: true
+        })
+
+      console.log('response', response);
+      if (response.status !== 200)
+        throw new Error("Login Failed")
+      console.log(response.data.data.student);
+      navigate('/home')
+
+      setLoggedInUser(response.data.data.student);
+      setIsAuthenticated(true);
+
+
     } catch (error) {
+      console.log('error' + error);
 
     }
   };
@@ -72,6 +103,11 @@ const StudentLogin = () => {
           >
             Sign in
           </button>
+          <div className="flex tw font-bold hover:underline items-center tw text-white   justify-center ">
+            <a href="/faculty/login" className="tw">
+              Sign-in as Faculty
+            </a>
+          </div>
         </form>
       </div>
     </section>

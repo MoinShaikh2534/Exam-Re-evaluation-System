@@ -1,6 +1,13 @@
 import React from 'react';
-
+import { useAuth } from '../contexts/AuthContext';
 const Navbar = () => {
+const {loggedInUser}  = useAuth()
+  function handleLogout() {
+    loggedInUser.setLoggedInUser(null);
+    loggedInUser.setIsAuthenticated(false);
+
+  }
+
   return (
     <nav className="bg-white p-4 shadow-lg">
       <div className="max-w-screen-2xl mx-auto flex justify-between items-center">
@@ -17,7 +24,7 @@ const Navbar = () => {
                 href="/home"
                 className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
               >
-               Dashboard
+                Dashboard
               </a>
             </li>
             <li>
@@ -38,7 +45,8 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/logout"
+                onClick={handleLogout}
+                href="/"
                 className="text-red-600 hover:bg-red-200 py-2 px-4 rounded-lg transition duration-300"
               >
                 Logout
