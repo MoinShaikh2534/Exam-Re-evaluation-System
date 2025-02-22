@@ -10,13 +10,13 @@ const Profile = () => {
           src= {avatar} // Replace with actual image path
           alt="Profile"
         />
-        <h2 className="text-lg font-semibold ml-4">NEERAJ SURNIS</h2>
+        <h2 className="text-lg font-semibold ml-4">Alex Parkar</h2>
       </div>
 
       {/* Right Section - Profile Details */}
       <div className="flex-1 p-6 flex justify-end">
         <div>
-          <p className="text-gray-100 text-lg">23UCS320</p>
+          <p className="text-gray-100 text-lg">24UCS100</p>
           <p className="text-gray-100 text-lg">Computer Science and Department</p>
           <p className="text-gray-100 text-lg">B.Tech-UCS</p>
           <div className="flex space-x-4">
