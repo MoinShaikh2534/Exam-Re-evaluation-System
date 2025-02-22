@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
@@ -22,14 +23,15 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const authUrl = import.meta.env.VITE_API_URL + "/auth/is-auth";
-      const response = await fetch(authUrl, {
+      const response = await axios.get(authUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-
+      console.log('response',response);
+      
       if (!response.ok) {
         const error = await response.json();
         console.log(error.message);
@@ -54,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        setIsAuthenticated,
         logout,
         loggedInUser,
         setLoggedInUser,

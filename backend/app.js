@@ -2,11 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const answersheetRoutes = require("./routes/answersheet.routes");
 require("dotenv").config();
 const errorHandler = require("./utils/errorHandler");
 
 const authRoutes = require("./routes/auth.routes");
+const answersheetRoutes = require("./routes/answersheet.routes");
+const reevalRequestRoutes = require("./routes/reevalrequest.routes");
 const app = express();
 
 const corsOptions = {
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/answersheet", answersheetRoutes);
+app.use("/reeval", reevalRequestRoutes);
 app.use(errorHandler);
 
 module.exports = app;

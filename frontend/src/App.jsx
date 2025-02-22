@@ -4,21 +4,21 @@ import Layout from "./components/Layout";
 import StudentDashboard from "./pages/StudentDashboard";
 import Result from "./pages/Result";
 import ReEvaluation from "./pages/ReEvaluation";
-import Login from "./pages/Login";
 import StudentLogin from "./pages/StudentLogin";
 import Logout from "./pages/Logout";
-
+import FacultyLogin from "./pages/FacultyLogin";
+import Home from "./pages/Home";
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Login Routes */}
-        <Route path="/faculty/login" element={<Login />} />
-        <Route path="/student/login" element={<StudentLogin />} />
 
-        {/* Protected Routes inside Layout */}
+        <Route path="/faculty/login" element={<FacultyLogin />} />
+        <Route path="/" element={<StudentLogin />} />
+
+
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/result" element={<Result />} />
           <Route path="/casher" element={<Casher />} />
           <Route path="/re-evaluation" element={<ReEvaluation />} />
