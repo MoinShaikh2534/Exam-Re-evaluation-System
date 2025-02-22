@@ -71,8 +71,10 @@ const App = () => {
               </LoginRestrictedRoute>
             }
           />
+            <Route path="/student" element={<StudentDashboard />} />
         </Route>
         <Route path="/facultydashboard" element={<EvaluatorDashboard />} />
+      
       </Routes>
     </Router>
   );
