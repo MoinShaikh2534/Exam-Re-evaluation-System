@@ -63,7 +63,34 @@ const uploadAnswerSheet = asyncHandler(async (req, res, next) => {
         .status(201)
         .json(createResponse("File uploaded successfully", newAnswerSheet));
 });
+const viewAnswerSheet = asyncHandler(async (req, res, next) => {
+    try {
+        const { fileUniqueName } = req.params;
+        console.log(
+            "Received request to view answer sheet with name:",
+            fileUniqueName,
+        );
 
+        const answerSheet = await AnswerSheet.findOne({ fileUniqueName });
+        if (!answerSheet) {
+            console.error("Answer sheet not found in DB:", fileUniqueName);
+            throw createError(404, "Answer sheet not found.");
+        }
+
+        console.log("Answer sheet found in DB:", answerSheet);
+
+        if (!fs.existsSync(answerSheet.pdfPath)) {
+            console.error("File not found on server:", answerSheet.pdfPath);
+            throw createError(404, "File not found on server.");
+        }
+
+        console.log("Sending file to client:", answerSheet.pdfPath);
+        res.sendFile(path.resolve(answerSheet.pdfPath));
+    } catch (error) {
+        console.error("Error in viewAnswerSheet:", error);
+        next(error);
+    }
+});
 // Download Answer Sheet (PDF)
 const downloadAnswerSheet = asyncHandler(async (req, res, next) => {
     const { fileUniqueName } = req.params;
@@ -216,6 +243,7 @@ module.exports = {
     downloadAnswerSheet,
     deleteAnswerSheet,
     calculateTotalMarks,
+    viewAnswerSheet,
     updateTotalMarks,
     getAllAnswerSheets,
 };

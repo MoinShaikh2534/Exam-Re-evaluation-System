@@ -4,7 +4,6 @@ import Layout from "./components/Layout";
 import StudentDashboard from "./pages/StudentDashboard";
 import Cashier from "./pages/Cashier";
 import Result from "./pages/Result";
-import ReEvaluation from "./pages/ReEvaluation";
 import StudentLogin from "./pages/StudentLogin";
 import FacultyLogin from "./pages/FacultyLogin";
 import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
@@ -49,14 +48,7 @@ const App = () => {
               </LoginRestrictedRoute>
             }
           />
-          <Route
-            path="/re-evaluation"
-            element={
-              <LoginRestrictedRoute>
-                <ReEvaluation />
-              </LoginRestrictedRoute>
-            }
-          />
+          
           <Route
             path="/logout"
             element={

@@ -6,6 +6,7 @@ const {
     downloadAnswerSheet,
     calculateTotalMarks,
     updateTotalMarks,
+    viewAnswerSheet,
     deleteAnswerSheet,
     getAllAnswerSheets,
 } = require("../controllers/answersheet.controllers");
@@ -40,7 +41,12 @@ router.get(
 // Delete an answer sheet (Optional)
 router.delete("/delete/:id", deleteAnswerSheet);
 
-router.post(
+router.get("/view/:fileUniqueName", viewAnswerSheet);
+
+
+
+
+router.post(    
     "/all",
     verifyToken,
     authorizeRoles([Role.STUDENT]),
