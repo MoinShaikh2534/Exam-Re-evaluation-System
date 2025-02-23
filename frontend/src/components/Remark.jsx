@@ -9,7 +9,7 @@ const Remark = () => {
 
     // State for remarks (one for each question)
     const [remarks, setRemarks] = useState(Array(10).fill(""));
-
+    const [requestedMarks, setRequestedMarks] = useState([]);
     // Handle checkbox change
     const handleCheckboxChange = (index) => {
         const newCheckedItems = [...checkedItems];
@@ -29,6 +29,16 @@ const Remark = () => {
         console.log("Checked Items:", checkedItems);
         console.log("Dropdown Values:", dropdownValues);
         console.log("Remarks:", remarks);
+        checkedItems.forEach((item, index) => {
+            if (item) {
+                requestedMarks.push({
+                    questionNumber: index + 1,
+                    requestedMarks: parseInt(dropdownValues[index]),
+                    description: remarks[index],
+                });
+            }
+        });
+        console.log("Requested Marks:", requestedMarks);
         alert("Form submitted! Check the console for details.");
     };
 
@@ -38,7 +48,10 @@ const Remark = () => {
 
             {/* Checkboxes, Dropdowns, and Remarks */}
             {[...Array(10)].map((_, index) => (
-                <div key={index} className="flex flex-col space-y-2 mt-4 border p-3 rounded-lg shadow-md">
+                <div
+                    key={index}
+                    className="flex flex-col space-y-2 mt-4 border p-3 rounded-lg shadow-md"
+                >
                     <div className="flex items-center space-x-4">
                         {/* Checkbox */}
                         <input
@@ -73,7 +86,9 @@ const Remark = () => {
                     {/* Remark Textarea */}
                     <textarea
                         value={remarks[index]}
-                        onChange={(e) => handleRemarkChange(index, e.target.value)}
+                        onChange={(e) =>
+                            handleRemarkChange(index, e.target.value)
+                        }
                         className="w-full border p-2 rounded h-16"
                         placeholder={`Remark for Question ${index + 1}...`}
                     />
