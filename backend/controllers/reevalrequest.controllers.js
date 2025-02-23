@@ -171,7 +171,7 @@ const getAllReevalRequests = asyncHandler(async (req, res) => {
 const getAssignedRequests = asyncHandler(async (req, res) => {
     const reevalRequests = await ReevalRequest.find({
         assignedFaculty: req.user._id,
-    }).populate("answerSheetId");
+    }).populate("answerSheetId studentId");
 
     return res
         .status(200)
