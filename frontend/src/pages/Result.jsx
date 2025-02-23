@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext'
+import axios from 'axios';
 const Result = () => {
   const [results] = useState([
     { courseCode: "MATH101", subject: "Mathematics", marks: 85, maxMarks: 100 },
@@ -12,6 +13,20 @@ const Result = () => {
   const totalMarksObtained = results.reduce((total, result) => total + result.marks, 0);
   const totalMaxMarks = results.reduce((total, result) => total + result.maxMarks, 0);
   const percentage = ((totalMarksObtained / totalMaxMarks) * 100).toFixed(2);
+
+  useEffect(() => {
+    const fetchResult = () => {
+      const url = import.meta.env.VITE_API_URL + '/result/' + loggedInStudent._id;
+      const response = axios.get(url, {}, {
+        withCredentials: true
+      })
+    }
+    fetchResult()
+  }, [])
+
+
+
+
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg mt-2">
