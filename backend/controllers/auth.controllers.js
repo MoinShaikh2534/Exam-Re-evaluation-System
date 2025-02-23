@@ -82,15 +82,7 @@ const studentLogin = asyncHandler(async (req, res) => {
     return res.status(200).json(
         createResponse("Login successful!", {
             token,
-            student: {
-                prn: student.prn,
-                name: student.name,
-                email: student.email,
-                role: student.role,
-                department: student.department,
-                year: student.year,
-                appliedForReevaluation: student.appliedForReevaluation,
-            },
+            student,
         }),
     );
 });
