@@ -70,7 +70,7 @@ function EvaluatorDashboard() {
         return (
           <div key={year} className="mb-10">
             <h3 className="text-2xl font-bold text-gray-700 mb-4">
-            
+              {year === 3 ? "Third Year" : year === 2 ? "Second Year" : "First Year"}
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -82,7 +82,8 @@ function EvaluatorDashboard() {
                   <h3 className="text-2xl font-bold text-gray-800">
                     {submission.subject}
                   </h3>
-                  {year === 3 ? "Third Year" : year === 2 ? "Second Year" : "First Year"}
+                  <p className="text-gray-500 text-sm">Year: {submission.year}</p>
+
                   <hr className="border-t border-gray-300 my-2" />
 
                   <p
