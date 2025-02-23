@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import pdfFile from '../../../backend/uploads/Maths_rotated.pdf';
-
-const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
+import pdfFile from "../../../backend/uploads/Maths_rotated.pdf";
+import axios from "axios";
+const Modal = ({
+    show,
+    onClose,
+    data,
+    fileUniqueName,
+    reloadCount,
+    setReloadCount,
+    qrCodeImageUrl,
+}) => {
     const [remarks, setRemarks] = useState({});
     const [showQRCode, setShowQRCode] = useState(false);
     const [transactionId, setTransactionId] = useState("");
@@ -25,11 +33,39 @@ const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
     }, 0);
 
     // Function to handle mark submission
-    const handleMarkSubmit = () => {
-        console.log('Remarks submitted:', remarks);
-        console.log('Total Payment:', totalPayment);
-        console.log('Transaction ID:', transactionId);
-        onClose();
+    const handleMarkSubmit = async () => {
+        // Create requestedMarks array from remarks
+        const requestedMarks = Object.entries(remarks)
+            .filter(([_, remark]) => remark.expected) // Only include questions with expected marks
+            .map(([questionNumber, remark]) => ({
+                questionNumber: parseInt(questionNumber),
+                requestedMarks: parseInt(remark.expected),
+                description: remark.remark || "i think marks will increase", // Use provided remark or default text
+            }));
+
+        const requestBody = {
+            studentId: data.studentId,
+            answerSheetId: data._id,
+            paymentAmount: totalPayment.toString(),
+            transactionId: transactionId,
+            requestedMarks: requestedMarks,
+        };
+        console.log("Request body:", requestBody);
+        try {
+            console.log("Request body:", requestBody);
+            const response = await axios.post(
+                import.meta.env.VITE_API_URL + "/reeval/apply",
+                requestBody,
+                { withCredentials: true },
+            );
+            console.log("Response:", response.data.data);
+            alert("Request submitted successfully!");
+            setReloadCount(reloadCount + 1);
+            onClose();
+        } catch (error) {
+            console.log("Error submitting marks:", error);
+            alert("Error submitting marks. Please try again later.");
+        }
     };
 
     const handleQRCodeClick = () => {
@@ -67,24 +103,43 @@ const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
                             <thead>
                                 <tr className="bg-gray-200">
                                     <th className="border px-2 py-1">Q. No</th>
-                                    <th className="border px-2 py-1">Obtained</th>
-                                    <th className="border px-2 py-1">Total</th>
-                                    <th className="border px-2 py-1">Expected</th>
+                                    <th className="border px-2 py-1">
+                                        Obtained
+                                    </th>
+                                    <th className="border px-2 py-1">Max</th>
+                                    <th className="border px-2 py-1">
+                                        Expected
+                                    </th>
                                     <th className="border px-3 py-2">Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.questionMarks?.map((mark, index) => (
                                     <tr key={index} className="text-center">
-                                        <td className="border px-2 py-1">{mark.questionNumber}</td>
-                                        <td className="border px-2 py-1">{mark.marksObtained}</td>
-                                        <td className="border px-2 py-1">{mark.maxMarks}</td>
+                                        <td className="border px-2 py-1">
+                                            {mark.questionNumber}
+                                        </td>
+                                        <td className="border px-2 py-1">
+                                            {mark.marksObtained}
+                                        </td>
+                                        <td className="border px-2 py-1">
+                                            {mark.maxMarks}
+                                        </td>
                                         <td className="border px-2 py-1">
                                             <input
                                                 type="number"
-                                                value={remarks[mark.questionNumber]?.expected || ""}
+                                                value={
+                                                    remarks[mark.questionNumber]
+                                                        ?.expected || ""
+                                                }
                                                 onChange={(e) =>
-                                                    handleRemarkChange(mark.questionNumber, { expected: e.target.value })
+                                                    handleRemarkChange(
+                                                        mark.questionNumber,
+                                                        {
+                                                            expected:
+                                                                e.target.value,
+                                                        },
+                                                    )
                                                 }
                                                 className="p-2 border rounded w-full"
                                                 min="0"
@@ -94,9 +149,18 @@ const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
                                         <td className="border px-4 py-3 min-w-[200px]">
                                             <input
                                                 type="text"
-                                                value={remarks[mark.questionNumber]?.remark || ""}
+                                                value={
+                                                    remarks[mark.questionNumber]
+                                                        ?.remark || ""
+                                                }
                                                 onChange={(e) =>
-                                                    handleRemarkChange(mark.questionNumber, { remark: e.target.value })
+                                                    handleRemarkChange(
+                                                        mark.questionNumber,
+                                                        {
+                                                            remark: e.target
+                                                                .value,
+                                                        },
+                                                    )
                                                 }
                                                 className="p-2 border rounded w-full"
                                             />
@@ -112,25 +176,36 @@ const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
                         </div>
 
                         {/* QR Code Button */}
-                        <button
-                            onClick={handleQRCodeClick}
-                            className="mt-4 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 hover:shadow-lg transition-all duration-300"
-                        >
-                            Generate QR Code
-                        </button>
+                        {!showQRCode && (
+                            <button
+                                onClick={handleQRCodeClick}
+                                className="mt-4 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 hover:shadow-lg transition-all duration-300"
+                            >
+                                Generate QR Code
+                            </button>
+                        )}
 
                         {showQRCode && (
                             <div className="mt-4">
-                                <img src={qrCodeImageUrl} alt="QR Code" className="w-70 h-90 mx-auto" />
+                                <img
+                                    src={qrCodeImageUrl}
+                                    alt="QR Code"
+                                    className="w-70 h-90 mx-auto"
+                                />
                                 <div className="mt-4">
-                                    <label htmlFor="transactionId" className="block text-sm font-medium text-gray-700">
+                                    <label
+                                        htmlFor="transactionId"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
                                         Transaction ID
                                     </label>
                                     <input
                                         type="text"
                                         id="transactionId"
                                         value={transactionId}
-                                        onChange={(e) => setTransactionId(e.target.value)}
+                                        onChange={(e) =>
+                                            setTransactionId(e.target.value)
+                                        }
                                         className="mt-1 block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Enter your transaction ID"
                                     />
