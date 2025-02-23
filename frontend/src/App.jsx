@@ -24,14 +24,14 @@ const App = () => {
 
         {/* Protected Routes (With Layout) */}
         <Route element={<Layout />}>
-          <Route
+          {/* <Route
             path="/cashier"
             element={
               <LoginRestrictedRoute>
                 <Cashier />
               </LoginRestrictedRoute>
             }
-          />
+          /> */}
           <Route
             path="/home"
             element={

@@ -1,10 +1,12 @@
 const ReevalRequest = require("../models/reevalrequest.model");
 const Student = require("../models/student.model");
+const Faculty = require("../models/faculty.model");
 const AnswerSheet = require("../models/answersheet.model");
 const asyncHandler = require("../utils/asyncHandler");
 const { createError, createResponse } = require("../utils/responseHandler");
 const { RequestStatus } = require("../utils/enums");
 const { MailOptions, sendEmail } = require("../utils/mail");
+const { Role } = require("../utils/enums");
 const appConfig = require("../config/appConfig");
 
 const applyReevalRequest = asyncHandler(async (req, res) => {
@@ -78,6 +80,9 @@ const approveReevalRequest = asyncHandler(async (req, res) => {
     }
 
     const answerSheet = await AnswerSheet.findById(reevalRequest.answerSheetId);
+    if (!answerSheet) {
+        throw createError(400, "Answer sheet not found");
+    }
     answerSheet.status = RequestStatus.RECHECKING;
     await answerSheet.save();
 
