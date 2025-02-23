@@ -10,6 +10,7 @@ const {
     getAllReevalRequests,
     getAssignedRequests,
     rejectReevalRequest,
+    submitRecheckedMarks,
 } = require("../controllers/reevalrequest.controllers");
 const { Role } = require("../utils/enums");
 
@@ -48,4 +49,12 @@ router.post(
     authorizeRoles([Role.CASHIER]),
     rejectReevalRequest,
 );
+
+router.post(
+    "/submit-recheck",
+    verifyToken,
+    authorizeRoles([Role.CHECKER]),
+    submitRecheckedMarks,
+);
+
 module.exports = router;

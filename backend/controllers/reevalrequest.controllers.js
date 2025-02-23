@@ -178,10 +178,66 @@ const getAssignedRequests = asyncHandler(async (req, res) => {
         );
 });
 
+const submitRecheckedMarks = asyncHandler(async (req, res, next) => {
+    const { requestId, reevaluatedMarks } = req.body;
+    if (!requestId || !reevaluatedMarks) {
+        throw createError(400, "Request ID and rechecked marks are required");
+    }
+    const reevalRequest = await ReevalRequest.findById(requestId);
+    if (!reevalRequest) {
+        throw createError(400, "Request not found");
+    }
+
+    // Find and update answer sheet
+    const answerSheet = await AnswerSheet.findById(reevalRequest.answerSheetId);
+    if (!answerSheet) {
+        throw createError(400, "Answer sheet not found");
+    }
+
+    answerSheet.reevaluatedMarks = reevaluatedMarks;
+
+    // Calculate total reevaluated marks
+    answerSheet.reevaluatedTotal = reevaluatedMarks.reduce(
+        (total, mark) => total + mark.marksObtained,
+        0,
+    );
+
+    // Mark as reevaluated
+    answerSheet.reevaluated = true;
+    answerSheet.status = RequestStatus.RECHECKED;
+    await answerSheet.save();
+
+    reevalRequest.status = RequestStatus.RECHECKED;
+    reevalRequest.completionDate = new Date();
+    await reevalRequest.save();
+
+    const student = await Student.findById(reevalRequest.studentId);
+    const mailOptions = new MailOptions(
+        appConfig.authEmail,
+        student.email,
+        "Re-evaluation Completed",
+        `Hi ${student.name},
+        Your answer sheet has been re-evaluated.
+        Original Total: ${answerSheet.totalObtained}
+        Re-evaluated Total: ${answerSheet.reevaluatedTotal}`,
+    );
+    await sendEmail(mailOptions);
+
+    return res.status(200).json(
+        createResponse("Marks submitted successfully!", {
+            requestId: reevalRequest._id,
+            status: reevalRequest.status,
+            reevaluatedMarks: answerSheet.reevaluatedMarks,
+            reevaluatedTotal: answerSheet.reevaluatedTotal,
+        }),
+    );
+});
+
 module.exports = {
     applyReevalRequest,
     approveReevalRequest,
     getAllReevalRequests,
     getAssignedRequests,
     rejectReevalRequest,
+    submitRecheckedMarks,
 };
