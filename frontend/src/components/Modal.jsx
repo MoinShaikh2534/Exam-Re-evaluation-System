@@ -1,17 +1,43 @@
 import React, { useState } from "react";
-import pdfFile from '../../../backend/uploads/Maths_rotated.pdf'
-import Remark from "./Remark";
-const Modal = ({ show, onClose, data, fileUniqueName }) => {
-    const [selectedQuestions, setSelectedQuestions] = useState([]);
-    const [remarks, setRemarks] = useState({});
-    console.log('data: ', data);
-    console.log('fileUniqueName', fileUniqueName);
+import pdfFile from '../../../backend/uploads/Maths_rotated.pdf';
 
+const Modal = ({ show, onClose, data, fileUniqueName, qrCodeImageUrl }) => {
+    const [remarks, setRemarks] = useState({});
+    const [showQRCode, setShowQRCode] = useState(false);
+    const [transactionId, setTransactionId] = useState("");
 
     if (!show) return null;
 
+    // Function to handle remark change
+    const handleRemarkChange = (questionNumber, updatedRemark) => {
+        setRemarks((prevRemarks) => ({
+            ...prevRemarks,
+            [questionNumber]: {
+                ...prevRemarks[questionNumber], // Preserve existing values
+                ...updatedRemark, // Update only the changed field
+            },
+        }));
+    };
+
+    // Calculate total payment (₹50 per question where expected marks are entered)
+    const totalPayment = Object.values(remarks).reduce((sum, remark) => {
+        return sum + (remark.expected ? 50 : 0);
+    }, 0);
+
+    // Function to handle mark submission
+    const handleMarkSubmit = () => {
+        console.log('Remarks submitted:', remarks);
+        console.log('Total Payment:', totalPayment);
+        console.log('Transaction ID:', transactionId);
+        onClose();
+    };
+
+    const handleQRCodeClick = () => {
+        setShowQRCode(true);
+    };
+
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75  flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-screen h-screen flex flex-col">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-2xl font-bold">Exam Details</h2>
@@ -26,15 +52,12 @@ const Modal = ({ show, onClose, data, fileUniqueName }) => {
                 <div className="flex flex-grow overflow-hidden">
                     {/* Left Side: PDF Viewer */}
                     <div className="w-2/3 overflow-auto border rounded-lg">
-                        <div className=" overflow-auto border rounded-lg">
-                            <iframe
-                                src={pdfFile}
-                                width="100%"
-                                height="650px"
-                            ></iframe>
-
-                        </div>
-
+                        <iframe
+                            src={pdfFile}
+                            width="100%"
+                            height="650px"
+                            className="border rounded-lg"
+                        ></iframe>
                     </div>
 
                     {/* Right Side: Marks Table & Remarks */}
@@ -46,6 +69,8 @@ const Modal = ({ show, onClose, data, fileUniqueName }) => {
                                     <th className="border px-2 py-1">Q. No</th>
                                     <th className="border px-2 py-1">Obtained</th>
                                     <th className="border px-2 py-1">Total</th>
+                                    <th className="border px-2 py-1">Expected</th>
+                                    <th className="border px-3 py-2">Remark</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,17 +79,75 @@ const Modal = ({ show, onClose, data, fileUniqueName }) => {
                                         <td className="border px-2 py-1">{mark.questionNumber}</td>
                                         <td className="border px-2 py-1">{mark.marksObtained}</td>
                                         <td className="border px-2 py-1">{mark.maxMarks}</td>
+                                        <td className="border px-2 py-1">
+                                            <input
+                                                type="number"
+                                                value={remarks[mark.questionNumber]?.expected || ""}
+                                                onChange={(e) =>
+                                                    handleRemarkChange(mark.questionNumber, { expected: e.target.value })
+                                                }
+                                                className="p-2 border rounded w-full"
+                                                min="0"
+                                                max={mark.maxMarks}
+                                            />
+                                        </td>
+                                        <td className="border px-4 py-3 min-w-[200px]">
+                                            <input
+                                                type="text"
+                                                value={remarks[mark.questionNumber]?.remark || ""}
+                                                onChange={(e) =>
+                                                    handleRemarkChange(mark.questionNumber, { remark: e.target.value })
+                                                }
+                                                className="p-2 border rounded w-full"
+                                            />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
 
-                        {/* Remarks Section */}
-                         <Remark/>
+                        {/* Total Payment */}
+                        <div className="mt-4 text-lg font-bold text-center">
+                            Total Payment: ₹{totalPayment.toFixed(2)}
+                        </div>
+
+                        {/* QR Code Button */}
+                        <button
+                            onClick={handleQRCodeClick}
+                            className="mt-4 px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 hover:shadow-lg transition-all duration-300"
+                        >
+                            Generate QR Code
+                        </button>
+
+                        {showQRCode && (
+                            <div className="mt-4">
+                                <img src={qrCodeImageUrl} alt="QR Code" className="w-70 h-90 mx-auto" />
+                                <div className="mt-4">
+                                    <label htmlFor="transactionId" className="block text-sm font-medium text-gray-700">
+                                        Transaction ID
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="transactionId"
+                                        value={transactionId}
+                                        onChange={(e) => setTransactionId(e.target.value)}
+                                        className="mt-1 block w-full p-2.5 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="Enter your transaction ID"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <button
+                            onClick={handleMarkSubmit}
+                            className="w-full py-2 mt-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                            Submit Request
+                        </button>
                     </div>
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
     );
 };
 

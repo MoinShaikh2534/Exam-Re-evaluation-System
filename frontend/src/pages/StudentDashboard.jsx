@@ -84,7 +84,8 @@ function StudentDashboard() {
           show={showModal}
           onClose={handleCloseModal}
           data={selectedResult}
-          fileName="1740270127399-52927750.pdf"  
+          fileName="1740270127399-52927750.pdf"
+          qrCodeImageUrl="QR.jpg" // Provide the QR code image URL here
         />
       )}
     </div>
