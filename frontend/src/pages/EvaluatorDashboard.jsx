@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Avatar from "../assets/avatar.jpg";
 import { Toaster, toast } from 'react-hot-toast';
+import Modal from "../components/Facultymodel"; // Import the Modal component
 
 const initialSubmissions = [
   { id: 1, student: "Alice", subject: "Data Structures", date: "Feb 15, 2025", status: "Pending" },
@@ -16,6 +17,8 @@ const faculty = {
 
 function EvaluatorDashboard() {
   const [submissions, setSubmissions] = useState(initialSubmissions);
+  const [selectedResult, setSelectedResult] = useState(null); // State for selected result
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
 
   // Function to mark submission as checked
   const markAsChecked = (id) => {
@@ -25,6 +28,18 @@ function EvaluatorDashboard() {
       )
     );
     toast.success('Submission marked as checked!');
+  };
+
+  // Function to handle view click
+  const handleViewClick = (data) => {
+    setSelectedResult(data);
+    setShowModal(true);
+  };
+
+  // Function to close modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedResult(null);
   };
 
   return (
@@ -84,6 +99,12 @@ function EvaluatorDashboard() {
                           Check
                         </button>
                       )}
+                      <button
+                        onClick={() => handleViewClick(submission)}
+                        className="ml-4 text-blue-500 hover:text-blue-700 cursor-pointer font-medium"
+                      >
+                        View
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -92,6 +113,15 @@ function EvaluatorDashboard() {
           </div>
         </div>
       </div>
+      {/* Modal for PDF preview */}
+      {selectedResult && (
+        <Modal
+          show={showModal}
+          onClose={handleCloseModal}
+          data={selectedResult}
+          fileName="1740270127399-52927750.pdf"  
+        />
+      )}
     </div>
   );
 }
