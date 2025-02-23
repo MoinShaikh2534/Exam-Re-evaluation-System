@@ -112,6 +112,43 @@ const approveReevalRequest = asyncHandler(async (req, res) => {
     );
 });
 
+const rejectReevalRequest = asyncHandler(async (req, res) => {
+    const { requestId } = req.body;
+    if (!requestId) {
+        throw createError(400, "Request ID is required");
+    }
+    const reevalRequest = await ReevalRequest.findById(requestId);
+    if (!reevalRequest) {
+        throw createError(400, "Request not found");
+    }
+    const answerSheet = await AnswerSheet.findById(reevalRequest.answerSheetId);
+    if (!answerSheet) {
+        throw createError(400, "Answer sheet not found");
+    }
+    answerSheet.status = RequestStatus.REJECTED;
+    await answerSheet.save();
+
+    const student = await Student.findById(reevalRequest.studentId);
+    const mailOptions = new MailOptions(
+        appConfig.authEmail,
+        student.email,
+        "Request for Re-evaluation",
+        `Your request for re-evaluation has been rejected.`,
+    );
+    sendEmail(mailOptions);
+
+    await ReevalRequest.findByIdAndDelete(requestId);
+
+    return res.status(201).json(
+        createResponse("Request rejected successfully!", {
+            requestId: reevalRequest._id,
+            status: reevalRequest.status,
+            answerSheetId: reevalRequest.answerSheetId,
+            subject: answerSheet.subject.name,
+        }),
+    );
+});
+
 const getAllReevalRequests = asyncHandler(async (req, res) => {
     const reevalRequests = await ReevalRequest.find({
         status: RequestStatus.PENDING,
@@ -125,8 +162,26 @@ const getAllReevalRequests = asyncHandler(async (req, res) => {
             ),
         );
 });
+
+const getAssignedRequests = asyncHandler(async (req, res) => {
+    const reevalRequests = await ReevalRequest.find({
+        assignedFaculty: req.user._id,
+    }).populate("answerSheetId");
+
+    return res
+        .status(200)
+        .json(
+            createResponse(
+                "All assigned requests fetched successfully!",
+                reevalRequests,
+            ),
+        );
+});
+
 module.exports = {
     applyReevalRequest,
     approveReevalRequest,
     getAllReevalRequests,
+    getAssignedRequests,
+    rejectReevalRequest,
 };

@@ -43,14 +43,6 @@ const Navbar = () => {
                     Result
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="/re-evaluation"
-                    className="text-black hover:bg-gray-200 py-2 px-4 rounded-lg transition duration-300"
-                  >
-                    Re-evaluation
-                  </a>
-                </li>
               </>
             )}
 
