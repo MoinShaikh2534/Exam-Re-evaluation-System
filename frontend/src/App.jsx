@@ -10,12 +10,16 @@ import LoginRestrictedRoute from "./components/LoginRestrictedRoute";
 import Logout from "./pages/Logout";
 import { useAuth } from "./contexts/AuthContext";
 import FacultyDashboard from "./dashboards/FacultyDashboard";
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const { loggedInUser } = useAuth();
   console.log("loggedInUser", loggedInUser);
 
   return (
+    <>
+    <Toaster position="top-center" reverseOrder={false} />
+   
     <Router>
       <Routes>
         {/* Public Routes (Without Layout) */}
@@ -68,6 +72,7 @@ const App = () => {
         </Route>
       </Routes>
     </Router>
+    </>
   );
 };
 
