@@ -48,7 +48,7 @@ const App = () => {
               </LoginRestrictedRoute>
             }
           />
-         
+          
           <Route
             path="/logout"
             element={
