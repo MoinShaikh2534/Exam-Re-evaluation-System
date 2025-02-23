@@ -1,32 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
-const Result = () => {
-  const [results] = useState([
-    { courseCode: "MATH101", subject: "Mathematics", marks: 85, maxMarks: 100 },
-    { courseCode: "OS101", subject: "Operating Systems", marks: 78, maxMarks: 100 },
-    { courseCode: "DB101", subject: "Database Engineering", marks: 88, maxMarks: 100 },
-    { courseCode: "UI101", subject: "Unix Internals", marks: 90, maxMarks: 100 },
-    { courseCode: "CA101", subject: "Computer Algorithms ", marks: 65, maxMarks: 100 },
-  ]);
 
-  const totalMarksObtained = results.reduce((total, result) => total + result.marks, 0);
-  const totalMaxMarks = results.reduce((total, result) => total + result.maxMarks, 0);
-  const percentage = ((totalMarksObtained / totalMaxMarks) * 100).toFixed(2);
+const Result = () => {
+  const { loggedInUser } = useAuth();
+  const [data, setData] = useState([]);
+  const [totalMarksObtained, setTotalMarksObtained] = useState(0);
+  const [totalMaxMarks, setTotalMaxMarks] = useState(0);
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
-    const fetchResult = () => {
-      const url = import.meta.env.VITE_API_URL + '/result/' + loggedInStudent._id;
-      const response = axios.get(url, {}, {
-        withCredentials: true
-      })
-    }
-    fetchResult()
-  }, [])
+    const fetchResult = async () => {
+      try {
+        const url = `${import.meta.env.VITE_API_URL}/answersheet/result/${loggedInUser._id}`;
+        const response = await axios.get(url, { withCredentials: true });
 
+        console.log('Fetched data:', response.data.data.subjectWiseMarks);
 
+        const subjectWiseMarks = response.data.data.subjectWiseMarks || [];
 
+        setData(subjectWiseMarks);
 
+        // Calculate total marks obtained and max marks
+        const totalObtained = subjectWiseMarks.reduce((sum, item) => sum + item.obtainedMarks, 0);
+        const totalMax = subjectWiseMarks.reduce((sum, item) => sum + item.maxMarks, 0);
+
+        setTotalMarksObtained(totalObtained);
+        setTotalMaxMarks(totalMax);
+
+        // Calculate percentage
+        const calculatedPercentage = totalMax > 0 ? ((totalObtained / totalMax) * 100).toFixed(2) : 0;
+        setPercentage(calculatedPercentage);
+      } catch (error) {
+        console.error('Error fetching results:', error);
+      }
+    };
+
+    fetchResult();
+  }, [loggedInUser]);
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg mt-2">
@@ -41,12 +52,12 @@ const Result = () => {
           </tr>
         </thead>
         <tbody>
-          {results.map((result, index) => (
+          {data.map((item, index) => (
             <tr key={index} className="border-b text-center">
-              <td className="p-3">{result.courseCode}</td>
-              <td className="p-3">{result.subject}</td>
-              <td className="p-3">{result.marks}</td>
-              <td className="p-3">{result.maxMarks}</td>
+              <td className="p-3">{item.subjectCode}</td>
+              <td className="p-3">{item.subjectName}</td>
+              <td className="p-3">{item.obtainedMarks}</td>
+              <td className="p-3">{item.maxMarks}</td>
             </tr>
           ))}
           <tr className="font-bold text-center bg-gray-200">
